@@ -54,7 +54,6 @@ public class AES256 {
 
         return encryptedData;
     } catch (Exception e) {
-        // Handle the exception properly
         e.printStackTrace();
         return null;
     }
@@ -91,7 +90,6 @@ public class AES256 {
         return decryptedBytes;
 
     } catch (Exception e) {
-        // Handle the exception properly
         e.printStackTrace();
         return null;
     }
