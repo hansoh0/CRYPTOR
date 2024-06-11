@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class FileByteMan {
 
-	/**
+   /**
    * Main function for encryption/decryption program
    * @param args not used
    */
@@ -40,7 +40,7 @@ public class FileByteMan {
         }
 	}
 
-	/**
+   /**
    * Encrypts a byte string with a secretKey and defined Salt in AES256
    * @param directory is the path of the target directory/folder that going to be iterated and
    * enrypted/decrypted.
@@ -59,7 +59,7 @@ public class FileByteMan {
 		return fileList;
 	}
 
-	/**
+   /**
    * Encrypts a byte string with a secretKey and defined Salt in AES256
    * @param inputdirectory is a path object where the files to-be-encrypted lie
    * @param outputDirectory is the path object where the encrypted files will be written 
@@ -121,13 +121,16 @@ public class FileByteMan {
         }
     }
 
+    /**
+   * Gets secret key and salt from user
+   * @param scanObj is the scanner object to get input
+   */
     private static String[] engageUser(Scanner scanObj) {
         String[] auth = new String[2];
-		    System.out.println("Secret Key: ");
+	      System.out.println("Secret Key: ");
 	      auth[0] = scanObj.nextLine();
-		    System.out.println("Salt: ");
-		    auth[1] = scanObj.nextLine();
-		    return auth;
+	      System.out.println("Salt: ");
+	      auth[1] = scanObj.nextLine();
+	      return auth;
     }
-
 }
