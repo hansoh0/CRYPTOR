@@ -9,6 +9,7 @@ import java.util.Arrays;
 /**
  * Grabs files in a specified directory, encrypt/decrypt the files bytes and overewrite the file with the new bytes
  * @HanSoho 
+ * HanSoho is not responsible for misuse
  */
 
 public class FileByteMan {
