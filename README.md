@@ -14,7 +14,20 @@ Usage: {encrypt/decrypt} {directory} {password/key} {salt}
 ```
 ### Example
 ```
-java FileByteMan encrypt /target/directory SecretKey1 salt
+:~$ cat /target/directory/file.txt
+Hello there
+
+:~$ java FileByteMan encrypt /target/directory SecretKey1 salt
+File Encrypted: file.txt
+
+:~$ cat /target/directory/file.txt
+p�L��f�%����|�%Nt���n��26�8�v֑
+
+:~$ java FileByteMan decrypt /target/directory SecretKey1 salt
+File Encrypted: file.txt
+
+:~$ cat /target/directory/file.txt
+Hello there
 ```
 This took me too long as is, bug fixes and polishes inbound
 
