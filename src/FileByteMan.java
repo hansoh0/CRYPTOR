@@ -18,54 +18,54 @@ public class FileByteMan {
    * @param args not used
    */
 	public static void main(String[] args) {
-        try {
-            String mode = null, directory = null, secretKey = null, salt = null, targetDirectory = null;
+	        try {
+	            String mode = null, directory = null, secretKey = null, salt = null, targetDirectory = null;
+	
+	    		if (args.length == 4) {
+	    			List<String> modeDirKeySalt = Arrays.asList("mode", "directory", "secret", "salt");
+	    			for (int i = 0; i < args.length; i++) {
+	    				switch(modeDirKeySalt.get(i)) {
+	    					case "mode":
+	    						mode = args[i];
+	    					case "directory":
+	    						targetDirectory = args[i];
+	    					case "secret":
+	    						secretKey = args[i];
+	    					case "salt":
+	    						salt = args[i];
+	                        default:
+	                            break;
+	    				}
+	    			}
+	    		} else if (args.length > 0 && (args[0].equalsIgnoreCase("help") || args[0].equals("--help") || args[0].equals("-h") || args[0].equalsIgnoreCase("h"))) {
+		                System.out.println("Usage: {encrypt/decrypt} {directory} {password/key} {salt}");
+		                System.exit(1);
+	                }
+	    		String strInDirectory = targetDirectory;
+	
+	    		// Defining out directory as the target directory
+	    		String strOutDirectory = strInDirectory;
+	    		Path inputDirectory = Paths.get(strInDirectory);
+	    		Path outputDirectory = Paths.get(strOutDirectory);
+	
+	                if ("encrypt".equalsIgnoreCase(mode)) {
+	                        encryptFiles(inputDirectory, outputDirectory, secretKey, salt);
+	                } else if ("decrypt".equalsIgnoreCase(mode)) {
+	                        decryptFiles(inputDirectory, outputDirectory, secretKey, salt);
+	                } else {
+	                        System.out.println("Invalid choice. Please enter 'encrypt' or 'decrypt'.");
+	                }
+	        } catch (Exception e) {
+	                System.out.println("An error occured in main().");
+	                System.exit(1);
+	        }
+	}		
 
-    		if (args.length == 4) {
-    			List<String> modeDirKeySalt = Arrays.asList("mode", "directory", "secret", "salt");
-    			for (int i = 0; i < args.length; i++) {
-    				switch(modeDirKeySalt.get(i)) {
-    					case "mode":
-    						mode = args[i];
-    					case "directory":
-    						targetDirectory = args[i];
-    					case "secret":
-    						secretKey = args[i];
-    					case "salt":
-    						salt = args[i];
-                        default:
-                            break;
-    				}
-    			}
-    		} else if (args.length > 0 && (args[0].equalsIgnoreCase("help") || args[0].equals("--help") || args[0].equals("-h") || args[0].equalsIgnoreCase("h"))) {
-                System.out.println("Usage: {encrypt/decrypt} {directory} {password/key} {salt}");
-                System.exit(1);
-            }
-    		String strInDirectory = targetDirectory;
-
-    		// Defining out directory as the target directory
-    		String strOutDirectory = strInDirectory;
-    		Path inputDirectory = Paths.get(strInDirectory);
-    		Path outputDirectory = Paths.get(strOutDirectory);
-
-            if ("encrypt".equalsIgnoreCase(mode)) {
-                encryptFiles(inputDirectory, outputDirectory, secretKey, salt);
-            } else if ("decrypt".equalsIgnoreCase(mode)) {
-                decryptFiles(inputDirectory, outputDirectory, secretKey, salt);
-            } else {
-                System.out.println("Invalid choice. Please enter 'encrypt' or 'decrypt'.");
-            }
-        } catch (Exception e) {
-            System.out.println("An error occured in main().");
-            System.exit(1);
-        }
-	}
-
-	/**
-   * Encrypts a byte string with a secretKey and defined Salt in AES256
-   * @param directory is the path of the target directory/folder that going to be iterated and
-   * enrypted/decrypted.
-   */
+		/**
+	   * Encrypts a byte string with a secretKey and defined Salt in AES256
+	   * @param directory is the path of the target directory/folder that going to be iterated and
+	   * enrypted/decrypted.
+	   */
 	private static List<Path> getFilesInDirectory(Path directory) throws IOException {
 		List<Path> fileList = new ArrayList<>();
 		Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
