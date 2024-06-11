@@ -13,34 +13,55 @@ import java.util.Arrays;
 
 public class FileByteMan {
 
-   /**
+	/**
    * Main function for encryption/decryption program
    * @param args not used
    */
 	public static void main(String[] args) {
-		// Get directory to operate on
-		Scanner scanObj = new Scanner(System.in);
-		System.out.println("Directory: ");
-		String strInDirectory = scanObj.nextLine();
+        try {
+            String mode = null, directory = null, secretKey = null, salt = null, targetDirectory = null;
 
-		// Defining out directory as the target directory
-		String strOutDirectory = strInDirectory;
-		Path inputDirectory = Paths.get(strInDirectory);
-		Path outputDirectory = Paths.get(strOutDirectory);
+    		if (args.length == 4) {
+    			List<String> modeDirKeySalt = Arrays.asList("mode", "directory", "secret", "salt");
+    			for (int i = 0; i < args.length; i++) {
+    				switch(modeDirKeySalt.get(i)) {
+    					case "mode":
+    						mode = args[i];
+    					case "directory":
+    						targetDirectory = args[i];
+    					case "secret":
+    						secretKey = args[i];
+    					case "salt":
+    						salt = args[i];
+                        default:
+                            break;
+    				}
+    			}
+    		} else if (args.length > 0 && (args[0].equalsIgnoreCase("help") || args[0].equals("--help") || args[0].equals("-h") || args[0].equalsIgnoreCase("h"))) {
+                System.out.println("Usage: {encrypt/decrypt} {directory} {password/key} {salt}");
+                System.exit(1);
+            }
+    		String strInDirectory = targetDirectory;
 
-		System.out.println("Mode: (encrypt/decrypt): ");
-        String choice = scanObj.nextLine().trim();
+    		// Defining out directory as the target directory
+    		String strOutDirectory = strInDirectory;
+    		Path inputDirectory = Paths.get(strInDirectory);
+    		Path outputDirectory = Paths.get(strOutDirectory);
 
-        if (choice.equalsIgnoreCase("encrypt")) {
-            encryptFiles(inputDirectory, outputDirectory, scanObj);
-        } else if (choice.equalsIgnoreCase("decrypt")) {
-            decryptFiles(inputDirectory, outputDirectory, scanObj);
-        } else {
-            System.out.println("Invalid choice. Please enter 'encrypt' or 'decrypt'.");
+            if ("encrypt".equalsIgnoreCase(mode)) {
+                encryptFiles(inputDirectory, outputDirectory, secretKey, salt);
+            } else if ("decrypt".equalsIgnoreCase(mode)) {
+                decryptFiles(inputDirectory, outputDirectory, secretKey, salt);
+            } else {
+                System.out.println("Invalid choice. Please enter 'encrypt' or 'decrypt'.");
+            }
+        } catch (Exception e) {
+            System.out.println("An error occured in main().");
+            System.exit(1);
         }
 	}
 
-   /**
+	/**
    * Encrypts a byte string with a secretKey and defined Salt in AES256
    * @param directory is the path of the target directory/folder that going to be iterated and
    * enrypted/decrypted.
@@ -50,36 +71,34 @@ public class FileByteMan {
 		Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
 			@Override
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        if (Files.isRegularFile(file)) {
-            fileList.add(file);
-        }
-        return FileVisitResult.CONTINUE;
+				if (Files.isRegularFile(file)) {
+					fileList.add(file);
+				}
+				return FileVisitResult.CONTINUE;
 			}
 		});
 		return fileList;
 	}
 
-   /**
+	/**
    * Encrypts a byte string with a secretKey and defined Salt in AES256
    * @param inputdirectory is a path object where the files to-be-encrypted lie
    * @param outputDirectory is the path object where the encrypted files will be written 
    */
-    private static void encryptFiles(Path inputDirectory, Path outputDirectory, Scanner scanObj) {
+    private static void encryptFiles(Path inputDirectory, Path outputDirectory, String secretKey, String salt) {
     	// Exit if files dont exist
         try {
             if (Files.notExists(outputDirectory)) {
-                System.out.println("Directory doesn't exist.");
+            	System.out.println("Directory doesn't exist.");
                 System.exit(1);
             }
 
             List<Path> files = getFilesInDirectory(inputDirectory);
 
-            String[] auth = engageUser(scanObj);
-
             // For file in targeted directory
             for (Path inputFile : files) {
                 byte[] fileBytes = Files.readAllBytes(inputFile);
-                byte[] encryptedBytes = AES256.encrypt(fileBytes, auth[0], auth[1]);
+                byte[] encryptedBytes = AES256.encrypt(fileBytes, secretKey, salt);
                 Path outputFile = outputDirectory.resolve(inputFile.getFileName());
                 Files.write(outputFile, encryptedBytes);
                 System.out.println("File Encrypted: " + inputFile.getFileName());
@@ -95,7 +114,7 @@ public class FileByteMan {
    * @param inputdirectory is a path object where the files to-be-decrypted lie
    * @param outputDirectory is the path object where the decrypted files will be written 
    */
-    private static void decryptFiles(Path inputDirectory, Path outputDirectory, Scanner scanObj) {
+    private static void decryptFiles(Path inputDirectory, Path outputDirectory, String secretKey, String salt) {
     	// Exit if files dont exist
         try {
             if (Files.notExists(outputDirectory)) {
@@ -105,12 +124,10 @@ public class FileByteMan {
 
             List<Path> files = getFilesInDirectory(inputDirectory);
 
-            String[] auth = engageUser(scanObj);
-
             // For file in targeted directory
             for (Path inputFile : files) {
                 byte[] fileBytes = Files.readAllBytes(inputFile);
-                byte[] decryptedBytes = AES256.decrypt(fileBytes, auth[0], auth[1]);
+                byte[] decryptedBytes = AES256.decrypt(fileBytes, secretKey, salt);
                 Path outputFile = outputDirectory.resolve(inputFile.getFileName());
                 Files.write(outputFile, decryptedBytes);
                 System.out.println("File Decrypted: " + inputFile.getFileName());
@@ -121,16 +138,4 @@ public class FileByteMan {
         }
     }
 
-    /**
-   * Gets secret key and salt from user
-   * @param scanObj is the scanner object to get input
-   */
-    private static String[] engageUser(Scanner scanObj) {
-        String[] auth = new String[2];
-	      System.out.println("Secret Key: ");
-	      auth[0] = scanObj.nextLine();
-	      System.out.println("Salt: ");
-	      auth[1] = scanObj.nextLine();
-	      return auth;
-    }
 }
