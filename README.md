@@ -5,12 +5,12 @@ A file & directory encryptor written in Java created by @hansoh0 (https://www.gi
 
 ## Installation
 ```
-git clone https://github.com/hansoh0/CRYPTOR.git
+hansoho@hansoho.git:~$ git clone https://github.com/hansoh0/CRYPTOR.git
 ```
 ## How to Use
 ```
-java FileByteMan --help
-Usage: {encrypt/decrypt} {directory} {password/key} {salt}
+hansoho@hansoho.git:~$ java FileByteMan --help
+Usage: FileByteMan {encrypt/decrypt} {directory} {password/key} {salt}
 ```
 ### Example
 ```
