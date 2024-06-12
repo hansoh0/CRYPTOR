@@ -24,7 +24,7 @@ hansoho@hansoho.git:~$ cat /target/directory/file.txt
 p�L��f�%����|�%Nt���n��26�8�v֑
 
 hansoho@hansoho.git:~$ java FileByteMan decrypt /target/directory SecretKey1 salt
-File Encrypted: file.txt
+File Decrypted: file.txt
 
 hansoho@hansoho.git:~$ cat /target/directory/file.txt
 Hello there
