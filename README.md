@@ -1,7 +1,7 @@
 
 # CRYPTOR
 
-A file & directory encryptor written in Java created by @hansoh0 (https://www.github.com/hansoh0)
+A file & directory encryptor written in Java. This cryptor uses AES256 and encrypts files bytes, allowing for encryption of many different types of files. created by @hansoh0 (https://www.github.com/hansoh0)
 
 ## Installation
 ```
