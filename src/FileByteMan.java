@@ -62,11 +62,6 @@ public class FileByteMan {
 	        }
 	}		
 
-		/**
-	   * Encrypts a byte string with a secretKey and defined Salt in AES256
-	   * @param directory is the path of the target directory/folder that going to be iterated and
-	   * enrypted/decrypted.
-	   */
 	private static List<Path> getFilesInDirectory(Path directory) throws IOException {
 		List<Path> fileList = new ArrayList<>();
 		Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
