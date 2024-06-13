@@ -11,6 +11,7 @@ hansoho@hansoho.git:~$ git clone https://github.com/hansoh0/CRYPTOR.git
 ```
 # This comes precompiled but if you wanna do it yourself, go for it:
 hansoho@hansoho.git:~$ javac -d bin/ src/*java
+
 # Without the following alias definition you would have to run FileByteMan with 'java ~/src/FileByteMan {options}'
 hansoho@hansoho.git:~$ echo "alias FileByteMan='java $HOME/bin/FileByteMan'" >> ~/.bashrc
 hansoho@hansoho.git:~$ source ~/.bashrc
