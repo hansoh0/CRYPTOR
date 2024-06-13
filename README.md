@@ -7,9 +7,15 @@ A file & directory encryptor written in Java. This cryptor uses AES256 and encry
 ```
 hansoho@hansoho.git:~$ git clone https://github.com/hansoh0/CRYPTOR.git
 ```
+## Compiling & Install
+```
+hansoho@hansoho.git:~$ javac -d bin/ src/*java
+hansoho@hansoho.git:~$ echo "alias FileByteMan='java $HOME/bin/FileByteMan'" >> ~/.bashrc
+hansoho@hansoho.git:~$ source ~/.bashrc
+```
 ## How to Use
 ```
-hansoho@hansoho.git:~$ java FileByteMan --help
+hansoho@hansoho.git:~$ FileByteMan --help
 Usage: FileByteMan {encrypt/decrypt} {directory} {password/key} {salt}
 ```
 ### Example
@@ -17,13 +23,13 @@ Usage: FileByteMan {encrypt/decrypt} {directory} {password/key} {salt}
 hansoho@hansoho.git:~$ cat /target/directory/file.txt
 Hello there
 
-hansoho@hansoho.git:~$ java FileByteMan encrypt /target/directory SecretKey1 salt
+hansoho@hansoho.git:~$ FileByteMan encrypt /target/directory SecretKey1 salt
 File Encrypted: file.txt
 
 hansoho@hansoho.git:~$ cat /target/directory/file.txt
 p�L��f�%����|�%Nt���n��26�8�v֑
 
-hansoho@hansoho.git:~$ java FileByteMan decrypt /target/directory SecretKey1 salt
+hansoho@hansoho.git:~$ FileByteMan decrypt /target/directory SecretKey1 salt
 File Decrypted: file.txt
 
 hansoho@hansoho.git:~$ cat /target/directory/file.txt
