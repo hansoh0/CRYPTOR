@@ -3,12 +3,10 @@
 
 A file & directory encryptor written in Java. This cryptor uses AES256 and encrypts files by bytes, allowing for encryption of many different types of files. created by @hansoh0 (https://www.github.com/hansoh0)
 
-## Installation
+## Compiling & Installation
 ```
 hansoho@hansoho.git:~$ git clone https://github.com/hansoh0/CRYPTOR.git
-```
-## Compiling & Install
-```
+
 # This comes precompiled but if you wanna do it yourself, go for it:
 hansoho@hansoho.git:~$ javac -d bin/ src/*java
 
